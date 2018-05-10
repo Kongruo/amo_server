@@ -7,7 +7,7 @@ const { dbcon } = require('../../utils/dbcon')
 // естессно нужно будет после '/' объявлять мидлвары на проверку юзера
 module.exports = router
   .get('/', (req, res) => dbcon(
-    `SELECT * FROM questions`,
+    `SELECT * FROM question`,
     [],
   ).then(({ rows, rowCount }) => {
     if (rowCount == 0) {
