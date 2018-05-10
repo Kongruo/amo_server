@@ -3,22 +3,21 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 
-const config = require('./config/config')
+const { port } = require('./config/config')
 
 const app = express()
 
-app.use(morgan('combined'))
-app.use(bodyParser.json())
-app.use(cors())
+// api
+const questions = require('./routes/api/questions')
 
-app.listen(process.env.PORT || config.port,
-  () => console.log(`Server start on port ${config.port} ...`))
+app
+  .use(morgan('combined'))
+  // .use(bodyParser.json()) // нужно использовать частично на ресурсы, где есть body
+  .use(cors())
+  //api
+  .use('/api/questions', questions)
 
-app.get('/', (req, res) => {
-  res.send(
-    [{
-      title: "Hello World!",
-      description: "Hi there! How are you?"
-    }]
-  )
-})
+  .listen(process.env.PORT || port, () => {
+    console.log(`Server start on port ${port} ...`)
+  })
+
